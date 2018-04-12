@@ -1,0 +1,33 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/local/bin/node', '/usr/local/bin/npm', 'run', 'watch' ]
+2 info using npm@5.6.0
+3 info using node@v9.10.1
+4 verbose run-script [ 'prewatch', 'watch', 'postwatch' ]
+5 info lifecycle @~prewatch: @
+6 info lifecycle @~watch: @
+7 verbose lifecycle @~watch: unsafe-perm in lifecycle true
+8 verbose lifecycle @~watch: PATH: /usr/local/lib/node_modules/npm/node_modules/npm-lifecycle/node-gyp-bin:/var/www/ecv.sf/node_modules/.bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+9 verbose lifecycle @~watch: CWD: /var/www/ecv.sf
+10 silly lifecycle @~watch: Args: [ '-c', 'encore dev --watch' ]
+11 info lifecycle @~watch: Failed to exec watch script
+12 verbose stack Error: @ watch: `encore dev --watch`
+12 verbose stack spawn ENOENT
+12 verbose stack     at ChildProcess.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/npm-lifecycle/lib/spawn.js:48:18)
+12 verbose stack     at ChildProcess.emit (events.js:180:13)
+12 verbose stack     at maybeClose (internal/child_process.js:936:16)
+12 verbose stack     at Process.ChildProcess._handle.onexit (internal/child_process.js:220:5)
+13 verbose pkgid @
+14 verbose cwd /var/www/ecv.sf
+15 verbose Linux 4.13.0-37-generic
+16 verbose argv "/usr/local/bin/node" "/usr/local/bin/npm" "run" "watch"
+17 verbose node v9.10.1
+18 verbose npm  v5.6.0
+19 error file sh
+20 error code ELIFECYCLE
+21 error errno ENOENT
+22 error syscall spawn
+23 error @ watch: `encore dev --watch`
+23 error spawn ENOENT
+24 error Failed at the @ watch script.
+24 error This is probably not a problem with npm. There is likely additional logging output above.
+25 verbose exit [ 1, true ]
