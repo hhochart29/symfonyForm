@@ -11,18 +11,27 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\Translation\TranslatorInterface;
 
 class MainController extends Controller
 {
+    private $mailer;
+
+    public function __construct(\Swift_Mailer $mailer)
+    {
+        $this->mailer = $mailer;
+    }
+
     /**
      * @Route("/main", name="main")
      */
-    public function index()
+    public function index(TranslatorInterface $translator)
     {
+        $controllerName = $translator->trans('MainController');
         return $this->render(
             'main/index.html.twig',
             [
-                'controller_name' => 'MainController',
+                'controller_name' => $controllerName,
             ]
         );
     }
@@ -49,17 +58,14 @@ class MainController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // $form->getData() holds the submitted values
-            // but, the original `$task` variable has also been updated
             $userSubmit = $form->getData();
 
-            // ... perform some action, such as saving the task to the database
-            // for example, if Task is a Doctrine entity, save it!
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($userSubmit);
             $entityManager->flush();
 
-            $this->addFlash('notice', 'Vous vous etes inscrits !');
+            $this->addFlash('notice', 'You are now registered !');
+            $this->sendMail($user->getEmail(), $user->getFirstName());
 
             return $this->redirectToRoute('new');
         }
@@ -68,4 +74,21 @@ class MainController extends Controller
             'form' => $form->createView(),
         ];
     }
+
+    private function sendMail($email, $name)
+    {
+        $message = (new \Swift_Message('Thank you for your registration'))
+            ->setFrom('symfony@example.com')
+            ->setTo($email)
+            ->setBody(
+                $this->renderView(
+                    'emails/registration.html.twig',
+                    array('name' => $name)
+                ),
+                'text/html'
+            );
+
+        $this->mailer->send($message);
+    }
+
 }
